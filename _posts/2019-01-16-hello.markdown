@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      "hello micro"
+title:      "极海的博客开通了"
 subtitle:   " \"Hello World, Hello Blog\""
 date:       2019-01-16 11:00:00
 author:     "micro"

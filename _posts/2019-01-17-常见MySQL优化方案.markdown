@@ -1,0 +1,128 @@
+
+---
+layout:     post
+title:      "慢SQL优化手段"
+
+date:       2019-01-17 11:00:00
+author:     "micro"
+header-img: "img/post-bg-2015.jpg"
+catalog: true
+tags:
+    - 学习
+---
+慢SQL优化手段总结
+
+ - MySQL支持配置指定记录慢查的信息。
+
+SHOW VARIABLES LIKE 'slow%’可以去显示DB当前慢查的配置。
+slow_launch_time表示建立线程花费超过这个阀值，slow_launch_threads计数增加。
+
+```
+slow_query_log是显示慢查日志是否打开。
+
+slow_query_log_file:日志保存路径。
+
+Long_query_time:SQL执行达到多少秒就记录日志。
+```
+
+SHOW VARIABLES LIKE 'long%'
+客户端可以set开启满查询也可以，但是重启和修改配置文件就失效了。
+
+My.cnf:
+　　slow_query_log=ON
+　　slow_query_log_file=/var/lib/mysql/localhost-centos-slow.log
+　　long_query_time=3
+
+重启MySQL就能在指定日志看到超过3秒的慢SQL记录。
+
+ - EXPLAIN命令
+
+加在SELECT 语句前面，能看到执行计划。
+
+ - Id: 
+ 		
+ 		JOIN和子查询(老版本貌似不支持)代表执行顺序，id越大越先执行。
+ - select_type:
+		
+		Simple： 不使用表连接
+		union union后的查询
+		Subquery 子查询
+		Derived 派生表
+ - Type
+
+		代表查找数据的方式，按照查询性能从差到好的排序
+		all 全表扫描，性能很差，一般可以加索引
+		Index 索引全扫描，遍历索引查询匹配的行
+		Range 索引范围扫描，<  > between等操作
+		Ref 使用一索引的前缀扫描，返回单行
+		eq_ref 使用唯一索引扫描
+		Const/system 单表最多匹配一个，pk或则uk查询
+		Null   MySQL不用访问表，直接返回结果
+
+ - possible_keys
+		
+		查询可能使用的索引
+
+ - Key:
+
+		实际使用的索引
+
+ - key_len:
+
+		使用索引字段的长度
+
+ - Rows:
+
+		扫描数量
+
+ - Extra:
+
+		额外的执行信息
+
+ - Using index :
+
+		直接访问索引能够取到数据，高性能表现
+
+ - Using where :
+
+			直接主键索引过滤数据，必带where,用不上索引
+			…
+-----
+ 
+- 一些SQL语句优化
+
+1. COUNT语句
+COUNT(*)与COUNT(某个字段)的区别是COUNT(某个字段)统计字段非NULL的行数。
+COUNT(1)与COUNT(*)都是统计primary Key，效率一样，如果没有PK，全表扫描.
+如果COUNT(column) ，其中column为索引，COUNT(column)和COUNT(1)一样快，否则COUNT(column)走全表扫描。
+
+2. ORDER BY 语句
+有序索引extra 显示Using Index的话，MySQL有序返回，效率非常高。
+返回数据排序，Using file sort，使用排序算法在sort_buffer_size系统变量设置的内存排序区中进行排序,内存装不下在磁盘，然后合并结果。file sort优化，减少额外排序，创建合适索引，select * 改成指定的字段，减少排序区的使用。
+
+3. GROUP BY语句
+GROUP BY默认加了ORDER BY ,不用再加ORDER BY 
+GROUP BY如果不关系排序，可以 ORDER BY NULL 禁止排序降低排序消耗。
+
+4. LIMIT 语句
+指定的范围小可以先拿出key值再去查全部字段, 避免查太多数据。
+SELECT * FROM basic_warehouse bw INNER JOIN  (SELECT id FROM basic_warehouse LIMIT 10,20) t ON t.id=  bw.id
+或则标记分页开始位置: 
+SELECT * FROM basic_warehouse WHERE id > 100 LIMIT 10
+
+5. 子查询
+一般来说JOIN 比子查询效率高
+
+6. 执行索引优先级
+指定走索引 SELECT * FROM basic_warehouse USE INDEX(name) 走索引复杂的IO的成本太高可能直接走全表扫描
+评估后可以强制走索引SELECT * FROM basic_warehouse FORECE INDEX(name)
+如果IO效率太低，可以让MySQL忽略一个索引，SELECT * FROM basic_warehouse IGNORE INDEX(name)
+7. 避免全表扫描
+使用NULL值判断会放弃索引走全表：WHERE name IS NULL。如果是char，建字段就固定，是不是null都会占100字符。varcher null不占空间
+设置默认值=0比字段 IS NULL搜索好。
+使用!= 或则<>会导致扫描全表
+Where a = 1 OR b = 2,不是两个字段都有索引的情况下，扫全表. 可以使用SELECT * FROM table WHERE a = 1 UNION ALL SELECT * FROM table WHERE b = 2 
+IN 和 NOT IN 都会扫全表, 很多时候可以用exits代替。
+LIKE 模糊查询全表扫描
+WHERE 中有表达式操作会全表扫描。例如WHERE a  - 1 = 10，改成 a= 11
+WHERE 有函数表达式会扫描全表
