@@ -101,9 +101,15 @@ page-mathjax: false
 # Friends
 friends: [
     {
-        title: "v2",
-        href: "http://www.v2ex.com/"
-    }  
+        title: "一个海外党-平靖の天堂",
+        href: "https://blog.jing.do/"
+    },{
+        title: "雷锋网-互联网资讯",
+        href: "https://www.leiphone.com/"
+    },{
+        title: "技术网站-51CTO",
+        href: "https://www.51cto.com/"
+    }   
 ]
 
 theme: jekyll-theme-leap-day
