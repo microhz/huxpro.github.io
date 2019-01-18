@@ -1,11 +1,10 @@
 # Site settings
-title: micro Blog
-SEOTitle: 极海的博客 | Hux Blog
+title: micro blog
+SEOTitle: 极海的博客 | Micro blog
 header-img: img/home-bg.jpg
 email: pengmi2@gmail.com
-description: "关于程序与设计、黑客与画家 | 极海，Web & Mobile Lover，Software Engineer，UX Designer | 这里是 @Hux极海 的个人博客，与你一起发现更大的世界。"
-keyword: "极海, Hux极海, Hux, 鬼栈, micro, @micro, 极海的博客, Hux Blog, 博客, 个人网站, 互联网, Web, JavaScript, 前端, 设计"
-url: "https://huangxuan.me"              # your host, for absolute URL
+description: "极海, Engineer，Software Engineer | 这里是 @micro 的个人博客。"
+keyword: "极海, micro极海, micro, micro, @micro, 极海的博客, micro Blog, 博客, 个人网站, 互联网, Web, Java, 分布式系统, 架构"
 baseurl: ""                             # for example, '/blog' if your blog hosted on 'host/blog'
 
 # Publish posts or collection documents with a future date.
@@ -13,12 +12,12 @@ future: true
 
 # SNS settings
 RSS: false
-weibo_username:     micro
-zhihu_username:     micro
-github_username:    micro
-twitter_username:   micro
-#facebook_username:  micro
-#linkedin_username:  firstname-lastname-idxxxx
+weibo_username:     -超威半导体-
+# zhihu_username:     micro
+github_username:    microhz
+# twitter_username:   micro
+# facebook_username:  micro
+# linkedin_username:  firstname-lastname-idxxxx
 
 
 
@@ -59,7 +58,7 @@ kramdown:
 
 
 # Disqus settings
-disqus_username: hux
+disqus_username: micro
 
 # Netease settings
 netease_comment: false
@@ -71,15 +70,14 @@ netease_comment: false
 # ba_track_id: [your track id]
 
 # Google Analytics
-ga_track_id: 'UA-49627206-1'            # Format: UA-xxxxxx-xx
-ga_domain: huangxuan.me
+ga_domain: microhz
 
 
 
 # Sidebar settings
 sidebar: true                           # whether or not using Sidebar.
-sidebar-about-description: "For the next quantum leap<br>离开世界之前，一切都是过程"
-sidebar-avatar: /img/avatar-hux-ny.jpg      # use absolute URL, seeing it's used in both `/` and `/about/`
+# sidebar-about-description: "For the next quantum leap<br>离开世界之前，一切都是过程"
+sidebar-avatar: /img/intro.png      # use absolute URL, seeing it's used in both `/` and `/about/`
 
 
 
@@ -103,39 +101,9 @@ page-mathjax: false
 # Friends
 friends: [
     {
-    #     title: "Su",
-    #     href: "http://su.gallery/"
-    # },{
-        title: "乱序",
-        href: "http://mida.re/"
-    },{
-        title: "前端外刊评论",
-        href: "http://qianduan.guru/"
-    },{
-        title: "天镶的博客",
-        href: "http://lingyu.wang/"
-    },{
-        title: "Luke 的自留地",
-        href: "http://hmqk1995.github.io"
-    },{
-        title: "Ebn's Blog",
-        href: "http://ebnbin.com/"
-    },{
-        title: "SmdCn's Blog",
-        href: "http://blog.smdcn.net"
-    },{
-        title: "David's Game",
-        href: "https://www.ruoyaowu.com/"
-    },{
-        title: "DHong Say",
-        href: "http://dhong.co"
-    },{
-        title: "尹峰以为",
-        href: "http://ingf.github.io/"
-    },{
-        title: "解旻的博客",
-        href: "http://xieminis.me/"
-    }
+        title: "v2",
+        href: "http://www.v2ex.com/"
+    }  
 ]
 
 theme: jekyll-theme-leap-day

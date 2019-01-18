@@ -1,0 +1,20 @@
+---
+layout:     post
+title:      "hello micro"
+subtitle:   " \"Hello World, Hello Blog\""
+date:       2019-01-16 11:00:00
+author:     "micro"
+header-img: "img/post-bg-2015.jpg"
+catalog: true
+tags:
+    - 生活
+    - Meta
+---
+
+> 你好，这里开通了我的个人博客，之前一直维护着自己csdn的博客，但是考虑到该平台广告过于泛滥并且很难做出自己的特色比较难定制.
+因此开始想构建自己的个人博客，一方面让自己能够静下来沉淀一些东西，清爽的界面和免费的主机服务还有开源社区强大的号召力让自己
+有这样一个想法。
+
+
+
+

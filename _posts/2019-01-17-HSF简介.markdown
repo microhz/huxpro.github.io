@@ -1,0 +1,68 @@
+---
+layout:     post
+title:      "HSF介绍"
+
+date:       2019-01-16 11:00:00
+author:     "micro"
+header-img: "img/post-bg-2015.jpg"
+catalog: true
+tags:
+    - 生活
+    - Meta
+---
+# HSF介绍
+HSF全称high speed frameworkd,是Alibaba内部使用的RPC框架，最初与Dubbo进行内部竞争，由于多方面的原因最终选择了HSF。
+主要原因如下：
+1. HSF代码量少一些，轻量一些，代码量大概2/3, Dubbo设计更加全面功能更多，更容器扩展和替换开源组件。
+2. HSF的netty + hession传输性能更高, Dubbo内部filter过多也进一步降低RPC的性能.
+3. HSF需要Jboss容器绑定，侵入更大，需要定制classloader等内部组件，dubbo更容器部署在通用Java环境。
+HSF的比较特点性能更高，更多内部定制化的组件绑定，让RPC的性能降到最低，运维成本降到最低，对立阿里来说是重要的。
+Dubbo特点是功能全面并且对开源组件的扩展更加容易，方便二次开发。所以比较适合推广到开源生态，因此阿里决定重新维护开源Dubbo社区提升影响力。
+HSF是一个点对点的调用框架，不存在通信的总线和服务集群。
+# HSF主要架构
+1. 地址注册中心(服务发现)
+注册中心就是服务的提供方需要指定服务本身的服务名称等一些服务注册信息.并将该服务注册到注册中心，做到服务发现的功能。
+与开源社区的zookeeper做服务发现一样的道理。在阿里内部现在采用的叫configServer的中间件进行维护，该节点就是内存存储，不持久化。
+2. 配置服务器
+rpc调用可能还有一些运维上的需求，例如超时以及版本号与不同环境的隔离.路由规则，权重等等有该节点进行控制，现在由diamond配置中间件承担。
+3. 元数据持久化节点（统一管理）
+元数据就是给运维提供方便，属于非必要节点，能够统一的管理服务，做到实时的监控运维等工作。
+4. HSOPS控制台
+基于3去做到可视化的运维工具。
+5. 服务提供者
+6. 服务消费者
+
+如图:
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20190116143823482.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L21pY3JvX2h6,size_16,color_FFFFFF,t_70)
+主要调用逻辑
+步骤如下：
+1. 服务提供者启动hsf容器，上报服务信息到服务注册中心.
+2. 服务提供方上报元数据信息。
+3. 服务消费方启动hsf容器，拉取提供者信息.
+4. 拉取配置服务信息进行调用。
+
+HSF的服务注册有很多种，包括最早的xml，需要绑定alitomcat的sar环境。
+后面支持lightAPI的方式直接main函数的启动不需要spring容器.
+再到现在springboot注解注入的方式。
+逐渐做到了与本地调用十分类似的使用方式。
+
+# demo 
+这里演示最简单的注册与调用服务的方式
+```
+  /**
+         * ligthAPI的方式
+         */
+        ServiceFactory serviceFactory = ServiceFactory.getInstance();
+        XXService xxService = (XXService) serviceFactory
+                .consumer("XXService")
+                .service("XXService")
+                .version("1.0.0.daily").group("HSF")
+                .subscribe();
+
+        UmsResult<Void> result = xxService.request(request);
+```
+
+# 总结
+HSF作为阿里内部高性能的RPC框架，其优点是轻量，高性能，运维成本低的特性，为大规模集群的应用提供了好的基础。
+如果要完成更完善的分布式系统的服务治理等功能需要更多外围的组件，这些可能需要二次开发，如果需要比较完整的生态dubbo或则spring boot比较好的一点，
+因此不同的场景选择不同的框架和组件才是硬道理。

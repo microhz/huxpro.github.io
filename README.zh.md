@@ -21,11 +21,7 @@
 
 ## 关于模板(beta)
 
-我的博客仓库——`huxpro.github.io`，是经常修改的，而且还会有人乱提交代码，因此给大家做了一个稳定版的模板。大家可以直接fork模板——`huxblog-boilerplate`,要改的地方我都说明了。或者可以直接下载zip到本地自己去修改。
 
-```
-$ git clone git@github.com:Huxpro/huxblog-boilerplate.git
-```
 
 **[在这里预览模板 &rarr;](http://huangxuan.me/huxblog-boilerplate/)**
 
@@ -44,7 +40,6 @@ $ git clone git@github.com:Huxpro/huxblog-boilerplate.git
 ## 支持
 
 * 你可以自由的fork。如果你能将主题作者和 github 的地址保留在你的页面底部，我将非常感谢你。
-* 如果你喜欢我的这个博客模板，请在`huxpro.github.io`这个repository点个赞——右上角**star**一下。
 
 ## 说明文档
 
@@ -79,13 +74,13 @@ $ git clone git@github.com:Huxpro/huxblog-boilerplate.git
 
 ```
 # Site settings
-title: Hux Blog             # 你的博客网站标题
+title: micro Blog             # 你的博客网站标题
 SEOTitle: Hux Blog			# 在后面会详细谈到
 description: "Cool Blog"    # 随便说点，描述一下
 
 # SNS settings      
-github_username: huxpro     # 你的github账号
-weibo_username: huxpro      # 你的微博账号，底部链接会自动更新的。
+github_username: micro     # 你的github账号
+weibo_username: mucro      # 你的微博账号，底部链接会自动更新的。
 
 # Build settings
 # paginate: 10              # 一页你准备放几篇文章
