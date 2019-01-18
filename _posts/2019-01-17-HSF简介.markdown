@@ -7,8 +7,7 @@ author:     "micro"
 header-img: "img/post-bg-2015.jpg"
 catalog: true
 tags:
-    - 生活
-    - Meta
+    - 学习
 ---
 # HSF介绍
 HSF全称high speed frameworkd,是Alibaba内部使用的RPC框架，最初与Dubbo进行内部竞争，由于多方面的原因最终选择了HSF。
